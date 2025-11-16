@@ -14,6 +14,7 @@ Quick reference for spec-kit's GitHub integration commands.
 **Purpose**: Sync tasks.md to GitHub Issues for team coordination using native sub-issues hierarchy.
 
 **Creates**:
+
 - 1 Epic issue with `[001]` prefix (entire feature) as parent
 - N sub-issues with clean titles linked to Epic via GitHub's native sub-issue feature (no prefixes, no "Phase 1:", no "US2:", no "(P2)")
 - Native parent-child relationship using GraphQL API
@@ -22,12 +23,14 @@ Quick reference for spec-kit's GitHub integration commands.
 - `.specify/memory/gh-issues-mapping.json` for centralized tracking
 
 **Usage**:
+
 ```bash
 /speckit.ghsync
 ```
 
 **Output**:
-```
+
+```text
 ✅ GitHub Issues synced successfully!
 
 Feature: [001] Multitenant cusdoor auth
@@ -43,11 +46,13 @@ Sub-Issues:
 ```
 
 **Requirements**:
+
 - Git repository with GitHub remote
 - `gh` CLI installed and authenticated
 - tasks.md exists
 
 **Labels Created**:
+
 - **Types:** `epic`, `feature`, `bug`, `docs`, `refactor`, `test`, `enhancement`
 - **Priorities:** `critical`, `high`, `medium`, `low`
 - **Spec labels:** `spec-001`, `spec-002`, etc. (auto-generated per spec)
@@ -59,16 +64,19 @@ Sub-Issues:
 **Purpose**: Create Pull Request with automatic issue closing.
 
 **Usage**:
+
 ```bash
 /speckit.pullrequest
 ```
 
 With custom description:
+
 ```bash
 /speckit.pullrequest "This adds the chat system with real-time features"
 ```
 
 **What it does**:
+
 1. Checks branch status (pushed, up-to-date)
 2. Analyzes commits in the branch
 3. Loads issue mapping
@@ -79,11 +87,13 @@ With custom description:
 **Generated PR**:
 
 Title:
-```
+
+```text
 [001] Multitenant cusdoor auth
 ```
 
 Body:
+
 ```markdown
 Closes #100
 
@@ -140,7 +150,7 @@ git commit -m "chore: complete setup tasks"
 
 ## File Structure
 
-```
+```text
 .specify/
 └── memory/
     └── gh-issues-mapping.json    # Centralized mapping for all features
@@ -192,11 +202,13 @@ Centralized file tracking all features:
 ### Install GitHub CLI
 
 **macOS**:
+
 ```bash
 brew install gh
 ```
 
 **Linux**:
+
 ```bash
 # Debian/Ubuntu
 sudo apt install gh
@@ -206,6 +218,7 @@ sudo dnf install gh
 ```
 
 **Windows**:
+
 ```bash
 winget install GitHub.cli
 ```

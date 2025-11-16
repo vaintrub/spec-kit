@@ -38,7 +38,8 @@ Feature implementation for {feature_title}.
    git pull origin {feature_branch}
    ```
 
-3. **Make commits** with conventional format:
+1. **Make commits** with conventional format:
+
    ```bash
    git commit -m "type(scope): description
 
@@ -46,14 +47,15 @@ Feature implementation for {feature_title}.
    Refs: #{issue_number}"
    ```
 
-4. **Check off tasks** in issues as you complete them
-5. **Close issues** when all tasks are done
+1. **Check off tasks** in issues as you complete them
+
+1. **Close issues** when all tasks are done
 
 ---
 
 **When all sub-issues are closed:**
 Create PR: `{feature_branch} → main` to complete this epic.
-```
+```text
 
 ---
 
@@ -83,7 +85,7 @@ git commit -m "type(scope): description
 
 Task: T012
 Refs: #{issue_number}"
-```
+```text
 
 ## Tasks
 
@@ -97,14 +99,14 @@ Refs: #{issue_number}"
 
 Use conventional commit format:
 
-```
+```text
 type(scope): description
 
 [optional body]
 
 Task: T012
 Refs: #{issue_number}
-```
+```text
 
 **Types:** feat, fix, test, refactor, docs, chore
 **Scope:** Optional (auth, api, db, setup, etc.)
@@ -115,6 +117,7 @@ Refs: #{issue_number}
 feat(auth): implement User model
 fix(api): resolve message ordering
 test(auth): add integration tests
+
 ```
 
 ---
@@ -123,7 +126,7 @@ test(auth): add integration tests
 - ✅ Check all tasks above
 - ✅ Close this issue
 - ✅ Update Epic #{epic_number}
-```
+```text
 
 ---
 
@@ -133,4 +136,3 @@ test(auth): add integration tests
 - Sub-issue title: `Feature name` (clean, no prefixes)
 - Labels for all issues: type (`epic`/`feature`/`bug`/`docs`/`refactor`/`test`/`enhancement`) + priority (`critical`/`high`/`medium`/`low`) + `spec-XXX`
 - Epic body MUST contain list of sub-issues with checkboxes
-- Sub-issues link back to Epic via "Epic: #123" in body

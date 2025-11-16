@@ -9,6 +9,7 @@ scripts:
 
 ```text
 $ARGUMENTS
+
 ```
 
 You **MUST** consider the user input before proceeding (if not empty).
@@ -46,7 +47,8 @@ You are Claude - you can understand markdown structure directly. No parsing scri
 
 Simply read `$SPEC_DIR/tasks.md` using the Read tool. You understand markdown structure natively - no parsing script needed.
 
-**For each `## ` heading:**
+**For each `##` heading:**
+
 1. Extract the **clean title** by removing:
    - `Phase 1:`, `Phase 2:`, etc.
    - `User Story 1 -`, `User Story 2:`, `User Story 3`, etc.
@@ -67,6 +69,7 @@ Simply read `$SPEC_DIR/tasks.md` using the Read tool. You understand markdown st
 5. Extract **tasks**: All lines matching `- [ ] T### Description` or `- [x] T### Description`
 
 **Example input:**
+
 ```markdown
 ## Phase 1: Setup (P3)
 
@@ -82,9 +85,10 @@ Implement user login and registration.
 
 - [ ] T020 User model
 - [ ] T021 Login endpoint
-```
+```text
 
 **Parsed output (conceptual):**
+
 ```json
 [
   {
@@ -109,7 +113,7 @@ Implement user login and registration.
     ]
   }
 ]
-```
+```text
 
 ### Step 3: Generate JSON Payload
 
@@ -147,7 +151,7 @@ Directly construct the JSON payload based on what you read from tasks.md. Do NOT
     }
   ]
 }
-```
+```text
 
 **Important:**
 - Epic title: `[{SPEC_NUMBER}] {SPEC_TITLE}` (with brackets and spec number)
@@ -171,7 +175,7 @@ fi
 
 # Pass JSON via stdin
 echo 'YOUR_JSON_PAYLOAD_HERE' | bash "$SCRIPT_PATH" --json-stdin
-```
+```text
 
 **Important:** Replace `YOUR_JSON_PAYLOAD_HERE` with the actual JSON string you constructed in Step 3. Use proper JSON escaping for bash.
 
@@ -179,7 +183,7 @@ echo 'YOUR_JSON_PAYLOAD_HERE' | bash "$SCRIPT_PATH" --json-stdin
 
 The script will output progress to stderr. Display a user-friendly summary:
 
-```
+```text
 ✅ GitHub Issues synced successfully!
 
 Specification: [001] Multitenant cusdoor auth
@@ -195,6 +199,7 @@ Repository: owner/repo
 View all issues: https://github.com/owner/repo/issues?q=label:spec-001
 
 The mapping file .specify/memory/gh-issues-mapping.json has been updated.
+
 ```
 
 ## Important Notes
@@ -266,11 +271,13 @@ cat << 'EOF' | bash scripts/bash/gh-issues-sync.sh --json-stdin
   ...
 }
 EOF
+
 ```
 
 ### What NOT to do
 
 ❌ **BAD:**
+
 ```bash
 # Don't write parsing scripts!
 cat <<'EOF' | python3
@@ -278,12 +285,13 @@ import json
 import re
 # ... 50 lines of parsing code ...
 EOF
-```
+```text
 
 ✅ **GOOD:**
+
 ```bash
 # Just construct the JSON and pipe it
 cat << 'EOF' | bash scripts/bash/gh-issues-sync.sh --json-stdin
 { "spec_number": "001", "issues": [...] }
 EOF
-```
+```text

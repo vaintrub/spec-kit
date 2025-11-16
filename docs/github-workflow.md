@@ -12,6 +12,7 @@ spec-kit provides two commands for GitHub integration:
 ### Sub-Issues Feature
 
 spec-kit uses GitHub's native sub-issues feature (via GraphQL API) to create a hierarchical relationship:
+
 - **Epic Issue** - Parent issue tracking the entire feature
 - **Sub-Issues** - Child issues for each Phase/User Story, linked to the Epic
 
@@ -322,30 +323,37 @@ Refs: #103"
 
 ## Tasks
 
-**Tests**
+### Tests
+
 - [ ] T010 Contract test for auth `tests/contract/test_auth.py`
 - [ ] T011 Integration test `tests/integration/test_user_flow.py`
 
-**Models**
+### Models
+
 - [ ] T012 Create User model `src/models/user.py`
 - [ ] T013 Create Session model `src/models/session.py`
 
-**Services**
+### Services
+
 - [ ] T014 Implement UserService `src/services/user_service.py`
 - [ ] T015 Implement auth endpoints `src/api/auth.py`
 
 **Progress:** 0/8 tasks
 
 ## Dependencies
+
 ⚠️ **Blocked by:** #102 Phase 2
 🔄 **Parallel with:** #104, #105
+
+```text
+(diagram placeholder - optional visualization)
 ```
 
 ## Commit Convention
 
 ### Format
 
-```
+```text
 <type>(<scope>): <summary>
 
 <body>
@@ -473,7 +481,7 @@ git push origin 003-chat-system
 
 ## File Structure
 
-```
+```text
 specs/003-chat-system/
 ├── spec.md                    # Feature specification
 ├── plan.md                    # Technical plan
@@ -609,6 +617,7 @@ Yes, run `/speckit.ghsync` for each new feature. Each feature gets its own Epic 
 ### Can I work on multiple features simultaneously?
 
 Yes, each feature has its own branch and issues. Switch branches as needed:
+
 ```bash
 git checkout 003-chat-system    # Feature 1
 git checkout 005-payment-system # Feature 2

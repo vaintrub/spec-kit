@@ -9,6 +9,7 @@ scripts:
 
 ```text
 $ARGUMENTS
+
 ```
 
 You **MUST** consider the user input before proceeding (if not empty).
@@ -19,8 +20,9 @@ This command creates a Pull Request from the feature branch to main with proper 
 
 ### Step 1: Prerequisites Check
 
-1. Run `{SCRIPT}` to get feature paths
-2. Verify we're in a git repository with GitHub remote:
+**1. Run `{SCRIPT}` to get feature paths**
+
+**2. Verify we're in a git repository with GitHub remote:**
 
 ```bash
 # Check git repo
@@ -35,13 +37,13 @@ if [[ ! "$remote_url" =~ github.com ]]; then
 fi
 ```
 
-3. Get current branch:
+**3. Get current branch:**
 
 ```bash
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 ```
 
-4. Verify current branch is a feature branch (matches pattern: ###-something):
+**4. Verify current branch is a feature branch (matches pattern: ###-something):**
 
 ```bash
 if [[ ! "$current_branch" =~ ^[0-9]{3}- ]]; then
@@ -49,6 +51,7 @@ if [[ ! "$current_branch" =~ ^[0-9]{3}- ]]; then
   Current: $current_branch
   Continue anyway? [y/N]
 fi
+
 ```
 
 ### Step 2: Check Branch Status
@@ -88,6 +91,7 @@ if [[ "$local_hash" != "$remote_hash" ]]; then
   # If yes:
   git push origin "$current_branch"
 fi
+
 ```
 
 ### Step 3: Load Issue Mapping
@@ -100,6 +104,7 @@ fi
 mapping_file=".specify/memory/gh-issues-mapping.json"
 spec_number="001"  # extracted from spec directory
 spec_data=$(jq -r ".specifications[\"$spec_number\"]" "$mapping_file")
+
 ```
 
 If exists and has entry for current spec:
@@ -117,6 +122,7 @@ Get all commits in the spec branch (since diverging from main):
 
 ```bash
 git log main..HEAD --oneline
+
 ```
 
 From commits, extract:
@@ -134,7 +140,7 @@ Build a summary:
   tasks_completed: ["T010", "T011", "T012", ...],
   scopes: ["us1", "us2", "phase1"]
 }
-```
+```text
 
 ### Step 5: Generate PR Title
 
@@ -191,12 +197,13 @@ Implementation of [feature name] including:
 
 [Extract from git diff --stat main..HEAD, show top 10 files:]
 
-```
+```text
 src/models/user.py          | 125 +++++++++++
 src/services/auth.py        |  89 ++++++++
 src/api/endpoints.py        | 156 +++++++++++++
 tests/test_auth.py          | 234 +++++++++++++++++++
 ...
+
 ```
 
 ## Test Results
@@ -213,13 +220,14 @@ Closes #[EPIC], #101, #102, #103, #104
 ---
 
 🤖 Generated with [spec-kit](https://github.com/anthropics/spec-kit)
+
 ```
 
 ### Step 7: Preview PR
 
 Show the user what will be created:
 
-```
+```text
 📝 Pull Request Preview
 ═══════════════════════════════════════════════════════════════
 
@@ -256,6 +264,7 @@ Closes #100, #101, #102, #103, #104
 ───────────────────────────────────────────────────────────────
 
 Create this Pull Request? [Y/n]: _
+
 ```
 
 ### Step 8: Create PR
@@ -271,6 +280,7 @@ gh pr create \
 [GENERATED_BODY]
 EOF
 )"
+
 ```
 
 Capture PR URL from output.
@@ -297,11 +307,11 @@ Update `.specify/memory/gh-issues-mapping.json` with PR information for the curr
     }
   }
 }
-```
+```text
 
 ### Step 10: Success Output
 
-```
+```text
 ✅ Pull Request created successfully!
 
 PR #42: [001] Multitenant cusdoor auth
@@ -326,6 +336,7 @@ https://github.com/owner/repo/pull/42
 4. Merge when ready (will auto-close all issues)
 
 ℹ️  After merge, issues #100, #101, #102, #103, #104 will close automatically.
+
 ```
 
 ## Advanced Features
@@ -334,36 +345,40 @@ https://github.com/owner/repo/pull/42
 
 If user provides arguments, use as additional context:
 
-```
+```text
 $ /speckit.pullrequest "This PR adds the chat system with real-time features"
 
 [Include user's text in Summary section]
+
 ```
 
 ### Draft PR
 
 Check if user wants to create a draft PR:
 
-```
+```text
 Create as draft PR? [y/N]: _
+
 ```
 
 If yes, add `--draft` flag:
 ```bash
 gh pr create --draft ...
+
 ```
 
 ### Reviewers
 
 If `.github/CODEOWNERS` exists or if user wants to add reviewers:
 
-```
+```text
 Add reviewers? [y/N]: _
 
 Reviewers (comma-separated GitHub usernames): developer1,developer2
 
 # Add to gh command:
 gh pr create --reviewer developer1,developer2 ...
+
 ```
 
 ### Labels
@@ -376,7 +391,7 @@ labels=$(gh issue view $epic_issue --json labels -q '.labels[].name' | tr '\n' '
 
 # Add to PR
 gh pr edit $pr_number --add-label "$labels"
-```
+```text
 
 ## Error Handling
 
@@ -441,7 +456,7 @@ gh pr edit $pr_number --add-label "$labels"
 
 ### Example 1: Simple PR Creation
 
-```
+```text
 $ /speckit.pullrequest
 
 Checking branch status...
@@ -468,11 +483,11 @@ Create this Pull Request? [Y/n]: y
 
 ✅ PR #42 created!
 https://github.com/owner/repo/pull/42
-```
+```text
 
 ### Example 2: Draft PR
 
-```
+```text
 $ /speckit.pullrequest
 
 ...
@@ -483,11 +498,11 @@ Create as draft PR? [y/N]: y
 
 Mark as ready for review when ready:
   gh pr ready 42
-```
+```text
 
 ### Example 3: No Issue Mapping
 
-```
+```text
 $ /speckit.pullrequest
 
 ⚠️  No issue mapping found for spec 001.
@@ -501,7 +516,7 @@ Continue without issue closing? [y/N]: y
 
 ✅ PR #42 created!
 Note: This PR will not auto-close any issues.
-```
+```text
 
 ## Notes
 
@@ -513,4 +528,3 @@ Note: This PR will not auto-close any issues.
 - When PR is merged, all listed issues close automatically via "Closes #..." syntax
 - If PR already exists, command offers to update it
 - Draft PRs can be created for work-in-progress
-- Issue lookup is by spec number, not by directory path
